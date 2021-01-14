@@ -1,0 +1,106 @@
+// FILES --------------------------------------------------------------------
+-----------------------------------------------------------------------------
+
+Three directories inside main directory
+
+/mpc_cuda/mpc_code/
+Description: Different MPC codes depending on the system to analyze 
+
+The mpc_md codes (helix & colloid) are the most advanced and tested
+codes, (probably the codes with more comments).
+
+*************************************************
+/mpc_cuda/test_routines/
+Description: All the MPC core is the same file so in this directory I added 
+the rouines to be tested individually and some comments in the beginning.
+*************************************************
+
+// CODE ---------------------------------------------------------------------
+-----------------------------------------------------------------------------
+
+The code is divided in different files:
+
+*************************************************
+main code (mpc.cu,mpc_gravity.cu,etc.)
+  -Libraries
+  -Pointers
+  -CUDAMalloc and CUDAFree routines
+  -C functions used in the program to call kernels
+  -Main program
+*************************************************
+kernel.h
+All the kernels and cuda funtions used in the program
+  -Warp Reduce
+  -Kernels
+*************************************************
+input.h
+System parameters (Size,number of paricles,etc.)
+
+  *Still using #define.
+*************************************************
+para_heli.h
+Helix parameters (Size,number of paricles,etc.)
+
+  *Still using #define.
+*************************************************
+
+// COMMENTS & TEST ROUTINES -------------------------------------------------
+-----------------------------------------------------------------------------
+
+In the beginning of the program a short description and details of the system
+
+/****************************************************************************
+* MULTI-PARTICLE COLLISION DYNAMICS                                         *
+* INITIAL CONFIGURATION: SOLVENT RANDOM, COLLOID FIXED AT HALF BOX.         *
+* INTERACTION POTENTIAL: LJ 6-3 Repulsive (n=3).                            *
+* SAVING CPU TIME:       VERLET LIST.                                       *
+* INTEGRATION ALGORITHM: VELOCITY-VERLET.                                   *
+* CELLS:                 AtomicAdd.	                  		    *
+* FLOWFIELD:             AtomicAdd.	                  		    *
+* AUTHOR: CAL-RMEDINA.                                                      *
+* DATE: 06.09.2019                               			    *
+****************************************************************************/
+
+In C functions you will find this commented lines
+
+//  TEST---------------------
+/*  
+    TESTING KERNEL FUNCTION
+    CPU ROUTINE
+//-------------------------*/
+
+//  OUTPUT-------------------
+/*  
+    OUTPUT FILE TO COMPARE
+    GPU & CPYU RESULTS
+//-------------------------*/
+
+Python FILES inside the directory
+
+Some scripts (z_funtion.sh,temperature.sh,etc.) to run the simulations recursively
+
+// METHOD -------------------------------------------------------------------
+-----------------------------------------------------------------------------
+
+Multiparticle Collision Dynamics in CUDA
+
+Multiparticle collision dynamics (MPC) is a simulation method
+developed to investigate the properties of mesoscale objects.
+MPC is a solid alternative for the simulation of soft matter 
+systems. Hydrodynamic interactions, transport of heat & mass,
+as well thermal fluctuation are by construction included.
+
+The general strategy to model complex structures with a MPC
+solvent is to define an hybrid algorithm where the solvent is
+simulated with the MPC technique & both, the solute description
+& the solute-solvent interactions, are accounted with specific models. 
+
+In MD-coupling solute-solute & solute-solvent interactions
+are taken into account through explicit potentials with 
+molecular dynamics (MD), & only the solvent-solvent interactions
+were mesoscopically described through MPC. This leads to a
+considerable speed up of the simulations respect to a simulation
+that will consider all the solvent-solvent interaction with MD.
+
+Code's development & tests were performed by A. Medina using GTX10XX
+& JUWELS testing account (Hackathon2019 J.Meinke & T.Frust).

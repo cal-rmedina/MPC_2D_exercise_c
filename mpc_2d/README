@@ -1,86 +1,57 @@
-// FILES --------------------------------------------------------------------
------------------------------------------------------------------------------
+// CODE ***********************************************************************
 
-Three directories inside main directory
+C code to perform 2D Multiparticle Collision Dynamics Simulations (MPC).
 
-/mpc_cuda/mpc_code/
-Description: Different MPC codes depending on the system to analyze 
+  -Serial C code.  
+  -To compile the code, standard C compiler is needed (gcc,icc,visualstudio).
+  -Make file "./Makefile" can be used to compile easier, IF YOU DO NOT KNOW 
+   WHAT MAKE DOES, compile typing directly on the teminal. 
+  -MIT License**
 
-The mpc_md codes (helix & colloid) are the most advanced and tested
-codes, (probably the codes with more comments).
+Code doesn't need to be compiled for each execution, once it is compiled,
+file "./system_parameters.h" can be modified to change simulation 
+parameter (rho, number of particles, steps, etc).
 
-*************************************************
-/mpc_cuda/test_routines/
-Description: All the MPC core is the same file so in this directory I added 
-the rouines to be tested individually and some comments in the beginning.
-*************************************************
+Once the simulation has finished, output files are created in the
+directory "./output/*.dat". In the same directory there are different
+python to analyze the results. VALUES OF THE SYSTEM IN PYTHON PROGRAMS 
+AND SIMULATION MUST MATCH.
 
-// CODE ---------------------------------------------------------------------
------------------------------------------------------------------------------
+// MAIN PROGRAM ***************************************************************
 
-The code is divided in different files:
+PATH: ./mpc_2d.c
 
-*************************************************
-main code (mpc.cu,mpc_gravity.cu,etc.)
-  -Libraries
-  -Pointers
-  -CUDAMalloc and CUDAFree routines
-  -C functions used in the program to call kernels
-  -Main program
-*************************************************
-kernel.h
-All the kernels and cuda funtions used in the program
-  -Warp Reduce
-  -Kernels
-*************************************************
-input.h
-System parameters (Size,number of paricles,etc.)
+INCLUDES:
 
-  *Still using #define.
-*************************************************
-para_heli.h
-Helix parameters (Size,number of paricles,etc.)
+  -Libraries.
+  -Files included.
+  -Main program (calling all the functions executed during the routine).
 
-  *Still using #define.
-*************************************************
+// MODULES AND ROUTINES *******************************************************
 
-// COMMENTS & TEST ROUTINES -------------------------------------------------
------------------------------------------------------------------------------
+/*
+NOTE: This section describes the structure of the code, for the purpose of 
+the exercise IT IS NOT REQUIRED TO understand the the files and directories
+of the program.*/
 
-In the beginning of the program a short description and details of the system
+Functions		"./modules/included_files.h"
 
-/****************************************************************************
-* MULTI-PARTICLE COLLISION DYNAMICS                                         *
-* INITIAL CONFIGURATION: SOLVENT RANDOM, COLLOID FIXED AT HALF BOX.         *
-* INTERACTION POTENTIAL: LJ 6-3 Repulsive (n=3).                            *
-* SAVING CPU TIME:       VERLET LIST.                                       *
-* INTEGRATION ALGORITHM: VELOCITY-VERLET.                                   *
-* CELLS:                 AtomicAdd.	                  		    *
-* FLOWFIELD:             AtomicAdd.	                  		    *
-* AUTHOR: CAL-RMEDINA.                                                      *
-* DATE: 06.09.2019                               			    *
-****************************************************************************/
+  -It includes the path of the files containing the  routines and functions
+  executed in main program, if a new routine is created, its path 
+  MUST BE DECLARED HERE!!!.
 
-In C functions you will find this commented lines
+Variables 		"./modules/memory/variables_declaration.h"
 
-//  TEST---------------------
-/*  
-    TESTING KERNEL FUNCTION
-    CPU ROUTINE
-//-------------------------*/
+  -It includes the declaration of variables and pointers used in the program.
+  -If new variables are used MUST BE DECLARED HERE.
 
-//  OUTPUT-------------------
-/*  
-    OUTPUT FILE TO COMPARE
-    GPU & CPYU RESULTS
-//-------------------------*/
+Initial parameters 	"./modules/read_ini_p/read_initial_param.h"
 
-Python FILES inside the directory
+  -Funtion to read the initial parameters
+  
+MPC routines 		"./modules/mpc_routines/mpc_routines.h"
 
-Some scripts (z_funtion.sh,temperature.sh,etc.) to run the simulations recursively
-
-// METHOD -------------------------------------------------------------------
------------------------------------------------------------------------------
+// METHOD *********************************************************************
 
 Multiparticle Collision Dynamics in CUDA
 
@@ -94,13 +65,3 @@ The general strategy to model complex structures with a MPC
 solvent is to define an hybrid algorithm where the solvent is
 simulated with the MPC technique & both, the solute description
 & the solute-solvent interactions, are accounted with specific models. 
-
-In MD-coupling solute-solute & solute-solvent interactions
-are taken into account through explicit potentials with 
-molecular dynamics (MD), & only the solvent-solvent interactions
-were mesoscopically described through MPC. This leads to a
-considerable speed up of the simulations respect to a simulation
-that will consider all the solvent-solvent interaction with MD.
-
-Code's development & tests were performed by A. Medina using GTX10XX
-& JUWELS testing account (Hackathon2019 J.Meinke & T.Frust).

@@ -1,7 +1,5 @@
 /******************************************************************************
-* INITIAL CONFIGURATION: SOLVENT RANDOM, VELOCITIES ACCORDING M-B.            *
 * AUTHOR: CAL-RMEDINA.                                                        *
-* DATE:   14.01.2021.                                                         *
 ******************************************************************************/
 
 /******* LIBRARIES ***********************************************************/
@@ -11,10 +9,11 @@
 #include <time.h>
 
 /******* FILES AND MODULES ***************************************************/
-#include "./modules/input.h"
 #include "./modules/included_files.h"
 
-/******* MAIN PROGRAM ********************************************************/
+/******* DEFINITIONS *********************************************************/
+#define RND1   ((double)((double)rand()/(double)RAND_MAX))
+
 int main(){
 
 //READING INITIAL PARAMETERS FROM FILE (./system_parameters.h)

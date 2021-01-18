@@ -2,6 +2,9 @@
 * AUTHOR: CAL-RMEDINA.                                                        *
 ******************************************************************************/
 
+//Random number [0,1]
+#define RND1   ((double)((double)rand()/(double)RAND_MAX))
+
 /******* LIBRARIES ***********************************************************/
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,9 +13,6 @@
 
 /******* FILES AND MODULES ***************************************************/
 #include "./modules/included_files.h"
-
-/******* DEFINITIONS *********************************************************/
-#define RND1   ((double)((double)rand()/(double)RAND_MAX))
 
 int main(){
 

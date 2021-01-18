@@ -1,10 +1,10 @@
 CXX = gcc
 
-NVFLAGS = -Wall -O3
+NVFLAGS = -Wall -O3 -lm
 NAME = mpc_2d
 
 $(NAME).exe: $(NAME).c
-	$(CXX) $(CFLAGS) $(NVFLAGS) $< -o $@
+	$(CXX) $(NVFLAGS) $< -o $@
 
 .PHONY: clean
 

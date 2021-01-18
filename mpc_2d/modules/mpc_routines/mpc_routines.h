@@ -1,7 +1,6 @@
 /*****************************************************************************/
 #define VIRTUAL_PARTICLES
 
-
 /*
 #include "initialization.c"
 #include "data_output.c"
@@ -78,11 +77,22 @@ void initialVelocities()
   int i;
   double vxtemp,vytemp;
 
+  double vxr;
+  double vp_sol = sqrt(temperature);		//Mass_solvent= 1.0
+  double vp_obs = sqrt(temperature/obsMass);
+
+  double pi = acos(-1.0);
+
   vxtemp=vytemp=0.0;
   for(i=0;i<N;i++)
     {
-      vx[i]=gauss() * sqrt(temperature);      //  gauss() yields Gaussian distributed
-      vy[i]=gauss() * sqrt(temperature);      // random numbers, variance 1.0 => temperature 1.0
+//    random numbers, variance 1.0 => temperature 1.0
+
+      vxr = sqrt(-logl(RND1));
+      vx[i]=vp_sol*vxr*cos(2.0*pi*RND1);
+
+      vxr = sqrt(-logl(RND1));
+      vy[i]=vp_sol*vxr*cos(2.0*pi*RND1);
       vxtemp+=vx[i];
       vytemp+=vy[i];
     }
@@ -95,11 +105,13 @@ void initialVelocities()
     }
   // initial velocities of the obstacle-particles: 
   for (i = N; i < N+Nobs; i++) {
-    vx[i] = gauss() * sqrt(temperature/obsMass);
-    vy[i] = gauss() * sqrt(temperature/obsMass);
+    vxr = sqrt(-logl(RND1));
+    vx[i] = vp_obs*vxr*cos(2.0*pi*RND1);
+
+    vxr = sqrt(-logl(RND1));
+    vy[i] = vp_obs*vxr*cos(2.0*pi*RND1);
   }
 }
-
 /*****************************************************************************/
 // The streaming step: linearly propagate the fluid particles.
 void stream()
@@ -134,18 +146,14 @@ void stream()
 /*****************************************************************************/
 // sort all (fluid + obstacle) particles into mpc-cells
 // gridshift = true if we want a random grid shift
-void cells(bool gridshift)
+void cells(float gridshift)
 {
   int i,icell,ix,iy;
   double xtemp,ytemp,rndx,rndy;
 
-  if (gridshift) {
-    rndx=RND1;
-    rndy=RND1;
-  } else {
-    rndx=0.0;
-    rndy=0.0;
-  }
+  rndx=RND1*gridshift;
+  rndy=RND1*gridshift;
+
   /* note:
      head[] and list[] together form Ncell "linked lists".
      A linked list is basically a list of things (e.g. particles);
@@ -170,11 +178,13 @@ void cells(bool gridshift)
 
 
 /*****************************************************************************/
-void collide()
+void collide(const float gridshift)
 {
   int i,icell;
   double vavx,vavy,vxtemp,vytemp,vrelx,vrely,ca,sa,sin_alpha,cell_mass;
-  cells(true);                       /* sort particles into mpc cells, with random grid shift */
+  double pi = acos(-1.0);
+
+  cells(gridshift);		// sort particles into mpc cells, with random grid shift
   ca=cos(alpha);
   sin_alpha=sin(alpha);
 
@@ -204,8 +214,9 @@ void collide()
       //  the lines in between the #ifdef and #endif statements.
 #ifdef VIRTUAL_PARTICLES
       if ( ((icell < Lx) || (icell >= Ly*Lx)) && cell_mass < rho) { 
-	vavx += sqrt((rho-cell_mass)*temperature) * gauss();
-	vavy += sqrt((rho-cell_mass)*temperature) * gauss();
+
+	vavx += sqrt((rho-cell_mass)*temperature) * sqrt(-logl(RND1))*cos(2.0*pi*RND1);
+	vavy += sqrt((rho-cell_mass)*temperature) * sqrt(-logl(RND1))*cos(2.0*pi*RND1);
 	cell_mass = rho;
       }
 #endif

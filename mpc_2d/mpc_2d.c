@@ -23,25 +23,29 @@ int main(){
 		&dt,&rho,&alpha,
 		&temperature,&grav,&obsMass);
 
-/*
+/*  printf("%lf\n%d\n%d\n%lf\n%d\n%d\n",dt,mpcsteps,mdsteps,rho,Lx,Ly);
+  printf("%lf\n%lf\n%lf\n%lf\n%d\n",alpha,temperature,grav,obsMass,radius);
+  printf("%d\n%d\n%d\n",vis_cellsize,measurement_interval,start_flow_measurement);*/
+
   int step;
-  read_parameters("parameter.ini");
   initialize();
-  printf("Starting simulation of %i mpc-steps.\n", mpcsteps);
-  for(step = 0; step < mpcsteps; step++)
-    {
-      if (step % 100 == 0) thermostate();      // call the thermostate every 100 steps
-      md();                                    // calculate movement of the obstacle parameters
-      stream();                                // streaming step of the fluid particles
-      collide();                               // collision step of the fluid and obstacle parameters
-      if (step % 1000 == 0) printf("Step: %u\n", step);
-      if ((step >= start_flow_measurement) && (step % measurement_interval == 0)) store_flowfield();
-    }
+  initialPositions();
+  initialVelocities();
+
+  printf("\nStarting simulation of %i mpc-steps.\n", mpcsteps);
+
+/*  for(step = 0; step < mpcsteps; step++){
+
+    if (step % 100 == 0) thermostate();      // call the thermostate every 100 steps
+    md();                                    // calculate movement of the obstacle parameters
+    stream();                                // streaming step of the fluid particles
+    collide();                               // collision step of the fluid and obstacle parameters
+    if (step % 1000 == 0) printf("Step: %u\n", step);
+    if ((step >= start_flow_measurement) && (step % measurement_interval == 0)) store_flowfield();
+  }
   printf("Simulation finished!\n");
   print_flowfield();
   cleanup();
-
 */
-
   return 0;
 }

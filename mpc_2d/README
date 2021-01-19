@@ -64,4 +64,4 @@ as well thermal fluctuation are by construction included.
 The general strategy to model complex structures with a MPC
 solvent is to define an hybrid algorithm where the solvent is
 simulated with the MPC technique & both, the solute description
-& the solute-solvent interactions, are accounted with specific models. 
+& the solute-solvent interactions, are accounted with specific models.

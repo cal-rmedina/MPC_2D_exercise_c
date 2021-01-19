@@ -1,117 +1,6 @@
 /*****************************************************************************/
 #define VIRTUAL_PARTICLES
 
-/*
-#include "initialization.c"
-#include "data_output.c"
-
-// simulation functions, found in this file:
-void stream();
-void cells(bool gridshift);
-void collide();
-void initialPositions();
-void initialVelocities();
-void place_obstacle();
-
-// parameter reading in, found in initialization.c (no interesting stuff here)
-void read_parameters(const char* filename);
-void initialize();
-void cleanup();
-double gauss();
-
-
-// data output functions, found in data_output.c
-void store_flowfield();
-void print_flowfield();
-void writeout_xyz();
-*/
-
-/*****************************************************************************/
-// place the heavy obstacle particles that are fixated by springs
-// also counts the number of obstacle particles Nobs
-void place_obstacle() {
-  int x,y;
-  Nobs = 0;
-  for (y = -(radius-1); y <= (radius-1); y++) {
-    for (x = -(radius-1); x <= (radius-1); x++) {
-      if (x*x+y*y <= (radius-1)*(radius-1)) 
-      {
-	obsStartx[Nobs] = (double)x;
-	obsStarty[Nobs] = (double)y;
-	Nobs++;
-      }
-    }
-  }
-  // shift all particles into the middle of the box:
-  for (x = 0; x < Nobs; x++) {
-    obsStartx[x] += ((double)Lx)/2.0;
-    obsStarty[x] += ((double)Ly)/2.0;
-  }
-}
-
-/*****************************************************************************/
-void initialPositions()
-{
-  int i;
-  // initial random positions of the fluid particles:
-  for(i=0;i<N;i++)
-    {
-      rx[i]=RND1*dLx;        /*  RND1 yields uniformly distributed  */
-      ry[i]=RND1*dLy;        /*  random numbers [0,1]              */
-    }
-  // initial positions of the obstacle particles
-  for (i = N; i < N+Nobs; i++) {
-    rx[i] = obsStartx[i-N];
-    ry[i] = obsStarty[i-N];
-  }
-}
-
-// initial velocities of the particles
-// background:
-// average kinetic energy of one particle in 2-dim = kT;   k = 1.0 in our units;
-// therefore: <1/2 m v²> = kT;   with m = 1.0 for the fluid particles
-
-/*****************************************************************************/
-void initialVelocities()
-{
-  int i;
-  double vxtemp,vytemp;
-
-  double vxr;
-  double vp_sol = sqrt(temperature);		//Mass_solvent= 1.0
-  double vp_obs = sqrt(temperature/obsMass);
-
-  double pi = acos(-1.0);
-
-  vxtemp=vytemp=0.0;
-  for(i=0;i<N;i++)
-    {
-//    random numbers, variance 1.0 => temperature 1.0
-
-      vxr = sqrt(-logl(RND1));
-      vx[i]=vp_sol*vxr*cos(2.0*pi*RND1);
-
-      vxr = sqrt(-logl(RND1));
-      vy[i]=vp_sol*vxr*cos(2.0*pi*RND1);
-      vxtemp+=vx[i];
-      vytemp+=vy[i];
-    }
-  vxtemp/=(double) N;
-  vytemp/=(double) N;
-  for(i=0;i<N;i++)
-    {
-      vx[i]-=vxtemp;     /* center-of-mass velocity of the */
-      vy[i]-=vytemp;     /*  whole system should vanish    */
-    }
-  // initial velocities of the obstacle-particles: 
-  for (i = N; i < N+Nobs; i++) {
-    vxr = sqrt(-logl(RND1));
-    vx[i] = vp_obs*vxr*cos(2.0*pi*RND1);
-
-    vxr = sqrt(-logl(RND1));
-    vy[i] = vp_obs*vxr*cos(2.0*pi*RND1);
-  }
-}
 /*****************************************************************************/
 // The streaming step: linearly propagate the fluid particles.
 void stream()
@@ -141,8 +30,6 @@ void stream()
       }
     }
 }
-
-
 /*****************************************************************************/
 // sort all (fluid + obstacle) particles into mpc-cells
 // gridshift = true if we want a random grid shift
@@ -241,7 +128,6 @@ void collide(const float gridshift)
 	}
     }
 }
-
 /*****************************************************************************/
 /* Thermostate:
    Because of the driving force (gravity), we put more and more energy into the system over time.

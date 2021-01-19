@@ -30,10 +30,11 @@ void read_ini_para(int *mpcsteps_h, int *mdsteps_h, int *Lx_h, int *Ly_h,
     }
 
 //TEMPORAL VARIABLES READ FROM FILE
-  fscanf(fp,"%d\n%d\n%d\n%d\n%d\n",&mpcsteps_t,&mdsteps_t,&Lx_t,&Ly_t,&radius_t);
-  fscanf(fp,"%d\n%d\n%d\n",&vis_cellsize_t,&measurement_interval_t,&start_flow_measurement_t);
+  fscanf(fp,"%lf\n%d\n%d\n%lf\n%d\n%d\n",&dt_t,&mpcsteps_t,&mdsteps_t,&rho_t,&Lx_t,&Ly_t);
 
-  fscanf(fp,"%lf\n%lf\n%lf\n%lf\n%lf\n%lf\n",&dt_t,&rho_t,&alpha_t,&temperature_t,&grav_t,&obsMass_t);
+  fscanf(fp,"%lf\n%lf\n%lf\n%lf\n%d\n",&alpha_t,&temperature_t,&grav_t,&obsMass_t,&radius_t);
+
+  fscanf(fp,"%d\n%d\n%d\n",&vis_cellsize_t,&measurement_interval_t,&start_flow_measurement_t);
 
   fclose(fp);
 

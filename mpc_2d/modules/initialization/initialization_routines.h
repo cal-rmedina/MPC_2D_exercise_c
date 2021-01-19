@@ -7,26 +7,27 @@ void initialize(){
 
   int i;
   Ncell=Lx*(Ly+1);
-  N=(int) ((dLx)*(dLy)*rho);    //NUMBER OF FLUID PARTICLES
+  N=(int) ((dLx)*(dLy)*rho);    //number of fluid particles
   flowstorecount = 0;
 
-  obsStartx = (double *) malloc(sizeof(double)*(2*radius+1)*(2*radius+1));  /* allocate memory */
+// Allocate memory CPU
+  obsStartx = (double *) malloc(sizeof(double)*(2*radius+1)*(2*radius+1));
   obsStarty = (double *) malloc(sizeof(double)*(2*radius+1)*(2*radius+1));
 
-//PLACE OBSTACLE
+// Place obstacle
   int x,y;
   Nobs = 0;
-  for (y = -(radius-1); y <= (radius-1); y++) {
-    for (x = -(radius-1); x <= (radius-1); x++) {
-      if (x*x+y*y <= (radius-1)*(radius-1)) 
-      {
+  for (y = -(radius-1); y <= (radius-1); y++){
+    for (x = -(radius-1); x <= (radius-1); x++){
+      if (x*x+y*y <= (radius-1)*(radius-1)){
 	obsStartx[Nobs] = (double)x;
 	obsStarty[Nobs] = (double)y;
 	Nobs++;
       }
     }
   }
-//  Shift all particles into the middle of the box:
+
+// Shift all particles into the middle of the box:
   for (x = 0; x < Nobs; x++){
     obsStartx[x] += ((double)Lx)/2.0;
     obsStarty[x] += ((double)Ly)/2.0;
@@ -40,7 +41,7 @@ void initialize(){
   vx=(double *) malloc(sizeof(double)*(N+Nobs));
   vy=(double *) malloc(sizeof(double)*(N+Nobs));
 
-// fLx: number of vectors in the flow-field visualization in x-direction
+// fLx & fLy: number of vectors in the flow-field visualization (x & y)
   flowfieldx = (double *) malloc(sizeof(double)*fLx*fLy); 
   flowfieldy = (double *) malloc(sizeof(double)*fLx*fLy);
   flowcellmass = (unsigned int *) malloc(sizeof(unsigned int)*fLx*fLy);

@@ -31,7 +31,7 @@ INCLUDES:
 
 /*
 NOTE: This section describes the structure of the code, for the purpose of 
-the exercise IT IS NOT REQUIRED TO understand the the files and directories
+the exercise IT IS NOT REQUIRED TO understand the files and directories
 of the program.*/
 
 Functions		"./modules/included_files.h"
@@ -40,16 +40,23 @@ Functions		"./modules/included_files.h"
   executed in main program, if a new routine is created, its path 
   MUST BE DECLARED HERE!!!.
 
-Variables 		"./modules/memory/variables_declaration.h"
+Variables 		"./modules/initialization/variables_declaration.h"
 
   -It includes the declaration of variables and pointers used in the program.
   -If new variables are used MUST BE DECLARED HERE.
 
-Initial parameters 	"./modules/read_ini_p/read_initial_param.h"
+Initial parameters 	"./modules/initialization/read_initial_param.h"
 
   -Funtion to read the initial parameters
-  
+
+Initialization routines "./modules/initialization/*"
+  -Memory allocation, placing object
+  -Initial positions
+  -Initial velocities
+
 MPC routines 		"./modules/mpc_routines/mpc_routines.h"
+
+MD routines 		"./modules/mpc_routines/md_routines.h"
 
 // METHOD *********************************************************************
 

@@ -1,9 +1,9 @@
-/******************************************************************************
-* AUTHOR: CAL-RMEDINA.                                                        *
-******************************************************************************/
-
+/******* DEFINITIONS *********************************************************/
 //Random number [0,1]
 #define RND1   ((double)((double)rand()/(double)RAND_MAX))
+
+//Virtual particles
+#define VIRTUAL_PARTICLES
 
 /******* LIBRARIES ***********************************************************/
 #include <stdio.h>
@@ -34,18 +34,23 @@ int main(){
 
   printf("\nStarting simulation of %i mpc-steps.\n", mpcsteps);
 
-/*  for(step = 0; step < mpcsteps; step++){
+  for(step = 0; step < mpcsteps; step++){
 
-    if (step % 100 == 0) thermostate();      // call the thermostate every 100 steps
-    md();                                    // calculate movement of the obstacle parameters
-    stream();                                // streaming step of the fluid particles
-    collide();                               // collision step of the fluid and obstacle parameters
-    if (step % 1000 == 0) printf("Step: %u\n", step);
-    if ((step >= start_flow_measurement) && (step % measurement_interval == 0)) store_flowfield();
+//    if (step % 100 == 0) thermostate();      // call the thermostate every 100 steps
+//    md();                                    // calculate movement of the obstacle parameters
+
+//  MPC- routines
+//    stream();                                // streaming step of the fluid particles
+//    cells(1.0);				//sort particles into mpc-cells
+//    collide();                               // collision step of the fluid and obstacle parameters
+
+//    if (step % 1000 == 0) printf("Step: %u\n", step);
+//    if ((step >= start_flow_measurement) && (step % measurement_interval == 0)) store_flowfield();
   }
+
   printf("Simulation finished!\n");
-  print_flowfield();
-  cleanup();
-*/
+//  print_flowfield();
+//  cleanup();
+
   return 0;
 }

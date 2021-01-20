@@ -12,8 +12,7 @@
 1
 10
 10000
-
-//TODO: random_shift  1 0 
+1.0
 
 /******************************************************************************
 
@@ -40,7 +39,7 @@ REFERENCE:
 1		vis_cellsize
 100		measurement_interval
 10000		start_flow_measurement
-
+1.0		gridshift
 
 DESCRIPTION OF VARIABLES:
 
@@ -63,5 +62,6 @@ DESCRIPTION OF VARIABLES:
  start_flow_measurement	start measuring the flowfield after this many mpc-steps 
  				(to give the system some time for "equilibration")
 
+ gridshift			1.0 or 0.0 to activate/deactivate random shift in collision routine
 
 ******************************************************************************/

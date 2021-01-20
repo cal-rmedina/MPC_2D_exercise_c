@@ -21,6 +21,7 @@ double	dLx,dLy;
 double	obsMass;
 double	spring_force;
 double	temperature;
+double  gridshift;
 
 //POINTERS
 

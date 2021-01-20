@@ -21,11 +21,13 @@ int main(){
 		&radius,&vis_cellsize,
 		&measurement_interval,&start_flow_measurement,
 		&dt,&rho,&alpha,
-		&temperature,&grav,&obsMass);
+		&temperature,&grav,&obsMass,
+		&gridshift);
 
-/*  printf("%lf\n%d\n%d\n%lf\n%d\n%d\n",dt,mpcsteps,mdsteps,rho,Lx,Ly);
+  printf("%lf\n%d\n%d\n%lf\n%d\n%d\n",dt,mpcsteps,mdsteps,rho,Lx,Ly);
   printf("%lf\n%lf\n%lf\n%lf\n%d\n",alpha,temperature,grav,obsMass,radius);
-  printf("%d\n%d\n%d\n",vis_cellsize,measurement_interval,start_flow_measurement);*/
+  printf("%d\n%d\n%d\n",vis_cellsize,measurement_interval,start_flow_measurement);
+  printf("%lf\n",gridshift);
 
   int step;
   initialize();
@@ -41,7 +43,7 @@ int main(){
 
 //  MPC- routines
    stream();                                // streaming step of the fluid particles
-   cells(1.0);				//sort particles into mpc-cells
+   cells(gridshift);				//sort particles into mpc-cells
    collide();                               // collision step of the fluid and obstacle parameters
 
    if (step % 1000 == 0) printf("Step: %u\n", step);

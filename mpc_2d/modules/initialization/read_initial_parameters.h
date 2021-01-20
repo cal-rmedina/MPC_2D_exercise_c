@@ -65,3 +65,13 @@ void read_ini_para(int *mpcsteps_h, int *mdsteps_h, int *Lx_h, int *Ly_h,
   printf("/**********************************************************************/\n");
   printf("Parameters read from file\n");
 }
+
+/*****************************************************************************/
+//TEST ROUTINE
+void print_ini_para(){
+
+  printf("%lf\n%d\n%d\n%lf\n%d\n%d\n",dt,mpcsteps,mdsteps,rho,Lx,Ly);
+  printf("%lf\n%lf\n%lf\n%lf\n%d\n",alpha,temperature,grav,obsMass,radius);
+  printf("%d\n%d\n%d\n",vis_cellsize,measurement_interval,start_flow_measurement);
+  printf("%lf\n%lf\n",gridshift,spring_force);
+}

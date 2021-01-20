@@ -24,11 +24,9 @@ int main(){
 		&temperature,&grav,&obsMass,
 		&gridshift,&spring_force);
 
-  printf("%lf\n%d\n%d\n%lf\n%d\n%d\n",dt,mpcsteps,mdsteps,rho,Lx,Ly);
-  printf("%lf\n%lf\n%lf\n%lf\n%d\n",alpha,temperature,grav,obsMass,radius);
-  printf("%d\n%d\n%d\n",vis_cellsize,measurement_interval,start_flow_measurement);
-  printf("%lf\n%lf\n",gridshift,spring_force);
-
+//TEST FUNCTION print on screen system_parameters, comment/uncomment
+  print_ini_para();
+  
   int step;
   initialize();
   initialPositions();

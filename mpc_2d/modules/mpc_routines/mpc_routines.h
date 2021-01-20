@@ -32,7 +32,7 @@ void stream(){
 
 // sort all (fluid + obstacle) particles into mpc-cells
 
-void cells(const float gridshift){
+void cells(const double gridshift){
 
   int i,icell,ix,iy;
   double xtemp,ytemp,rndx,rndy;

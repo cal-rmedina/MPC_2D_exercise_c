@@ -1,46 +1,48 @@
-
-/*
-  Visualization of the flowfield:
+/*****************************************************************************/
+/*Visualization of the flowfield:
   The box is separated into visualization cells (without grid shift) that are 
    of the size vis_cellsize*vis_cellsize times the unit mpc-cell.
 
-  store_flowfield() calculates the total momenta of the particles in the vis. cells and
-   adds them up in flowfieldx[] and flowfieldy[]. It should be called after every "so many" mpc-steps.
+  store_flowfield() calculates the total momenta of the particles in the vis.
+  cells and adds them up in flowfieldx[] and flowfieldy[]. It should be 
+  called after every "so many" mpc-steps.*/
 
-  print_flowfield() prints out the average momenta of the fluid to a file.
-   It should be called once at the end of the simulation.
-  
-*/
-
-void store_flowfield() {
-  cells(0.0);   /* sort particles into mpc-cells without grid shift */
+void store_flowfield(){
   double cell_sum_vx, cell_sum_vy;
   int i, cellx, celly;
   unsigned int mass;
-  for (celly = 0; celly < Ly; celly++) {
-    for (cellx = 0; cellx < Lx; cellx++) {   /* loop over all mpc-cells */
+  for (celly = 0; celly < Ly; celly++){
+    for (cellx = 0; cellx < Lx; cellx++){   //loop over all mpc-cells
       cell_sum_vx = 0.0;
       cell_sum_vy = 0.0;
       i = head[cellx+celly*Lx];
       mass = 0;
-      while (i != -1) {                      /* loop over all particles in this mpc-cell,     */
-	if (i < N) {                         /*  sum up the velocities of the fluid particles */
+      while (i != -1){                      //loop over all particles in this mpc-cell
+	if (i < N){                         //sum up the velocities of the fluid particles
 	  cell_sum_vx += vx[i];
 	  cell_sum_vy += vy[i];
 	  ++mass;
 	}
 	i = list[i];
       }
-      // add the total (fluid-) momentum of this mpc-cell to the correct visualization cell
-      flowfieldx[cellx/vis_cellsize+(celly/vis_cellsize)*fLx] += cell_sum_vx;  /* fLx = number of vis. cells in x-direction */
+
+      //add the total (fluid-) momentum of this mpc-cell to the correct visualization cell
+      //fLx,fLy = number of vis. cells in x,y - directions
+
+      flowfieldx[cellx/vis_cellsize+(celly/vis_cellsize)*fLx] += cell_sum_vx;  
       flowfieldy[cellx/vis_cellsize+(celly/vis_cellsize)*fLx] += cell_sum_vy;
+
       flowcellmass[cellx/vis_cellsize+(celly/vis_cellsize)*fLx] += mass;
     }
   }
   ++flowstorecount;
 }
+/*****************************************************************************/
 
-void print_flowfield() {
+/*print_flowfield() prints out the average momenta of the fluid to a file.
+   It should be called once at the end of the simulation.*/
+
+void print_flowfield(){
   FILE* flowfield = fopen("./output/flowfield.dat", "w");
   int x,y;
   for (y = 0; y < fLy; y++) {
@@ -79,7 +81,7 @@ void print_flowfield() {
   }
   fclose(density);
 }
-
+/*****************************************************************************/
 
 // not used at the moment;
 // call this e.g. every 100 mpc steps if you want to create "movies" from your system; watch it in VMD (probably not working on your machines)

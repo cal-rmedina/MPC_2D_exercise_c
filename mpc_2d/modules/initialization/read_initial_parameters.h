@@ -4,7 +4,7 @@ void read_ini_para(int *mpcsteps_h, int *mdsteps_h, int *Lx_h, int *Ly_h,
 		   int *measurement_interval_h, int *start_flow_measurement_h,
 		   double *dt_h, double *rho_h, double *alpha_h,
 		   double *temperature_h, double *grav_h, double *obsMass_h,
-		   double *gridshift_h){
+		   double *gridshift_h,double *spring_force_h){
 
 //TEMPORAL VARIABLES READ FROM FILE
   int mpcsteps_t;
@@ -23,6 +23,7 @@ void read_ini_para(int *mpcsteps_h, int *mdsteps_h, int *Lx_h, int *Ly_h,
   double grav_t;
   double obsMass_t;
   double gridshift_t;
+  double spring_force_t;
   
 //CHECKING IF PARAMETERS FILE EXISTS
   FILE *fp = fopen("system_parameters.h","r"); 
@@ -38,7 +39,7 @@ void read_ini_para(int *mpcsteps_h, int *mdsteps_h, int *Lx_h, int *Ly_h,
 
   fscanf(fp,"%d\n%d\n%d\n",&vis_cellsize_t,&measurement_interval_t,&start_flow_measurement_t);
 
-  fscanf(fp,"%lf\n",&gridshift_t);
+  fscanf(fp,"%lf\n%lf\n",&gridshift_t,&spring_force_t);
 
   fclose(fp);
 
@@ -59,7 +60,8 @@ void read_ini_para(int *mpcsteps_h, int *mdsteps_h, int *Lx_h, int *Ly_h,
   *grav_h 	= grav_t;
   *obsMass_h	= obsMass_t;
   *gridshift_h  = gridshift_t;
-  
+  *spring_force_h = spring_force_t;
+
   printf("/**********************************************************************/\n");
   printf("Parameters read from file\n");
 }

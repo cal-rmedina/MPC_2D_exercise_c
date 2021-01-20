@@ -13,6 +13,7 @@
 10
 10000
 1.0
+1000.0
 
 /******************************************************************************
 
@@ -40,6 +41,7 @@ REFERENCE:
 100		measurement_interval
 10000		start_flow_measurement
 1.0		gridshift
+1000.0		spring_force
 
 DESCRIPTION OF VARIABLES:
 
@@ -64,4 +66,5 @@ DESCRIPTION OF VARIABLES:
 
  gridshift			1.0 or 0.0 to activate/deactivate random shift in collision routine
 
+ spring_force			constant in spring potential U = -k (r - r_o)
 ******************************************************************************/

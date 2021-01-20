@@ -64,7 +64,7 @@ void cells(const float gridshift){
   }
 }
 /*****************************************************************************/
-void collide(const float gridshift){
+void collide(){
 
   int i,icell;
   double vavx,vavy,vxtemp,vytemp,vrelx,vrely,ca,sa,sin_alpha,cell_mass;

@@ -13,12 +13,12 @@ void thermostate(){
 
   for (i = 0; i < N; i++)  av_vel2 += vx[i]*vx[i]+vy[i]*vy[i];
 
-  printf("temperature correction factor: %f\n", av_vel2);
+  // printf("temperature correction factor: %f\n", av_vel2);
 
 //average velocity we want: v² = kT/m
   av_vel2 /= (double)N;
 
-  printf("temperature correction factor: %f\n", av_vel2);
+  // printf("temperature correction factor: %f\n", av_vel2);
 
 //av_vel2/2.0 is the current temperature
   const double scale_factor = sqrt(temperature/(av_vel2/2.0));
@@ -27,7 +27,7 @@ void thermostate(){
     vy[i] *= scale_factor;
   }
 // print out corrected temperature deviation:
- printf("temperature correction factor: %f\n", scale_factor);
+ // printf("temperature correction factor: %f\n", scale_factor);
 }
 /*****************************************************************************/
  

@@ -7,8 +7,14 @@ void initialize(){
 
   int i;
   Ncell=Lx*(Ly+1);
+  dLx=(double)Lx;        // ADDED
+  dLy=(double)Ly;        // ADDED
   N=(int) ((dLx)*(dLy)*rho);    //number of fluid particles
   flowstorecount = 0;
+  spring_force = 1000.0;        // ADDED
+
+  fLx = ((int)(ceil(Lx/(double)(vis_cellsize))+0.5));        // ADDED        /* number of cells in the flow field visualization */
+  fLy = ((int)(ceil(Ly/(double)(vis_cellsize))+0.5));        // ADDED
 
 // Allocate memory CPU
   obsStartx = (double *) malloc(sizeof(double)*(2*radius+1)*(2*radius+1));
@@ -120,4 +126,19 @@ void initialVelocities(){
 
   printf("/**********************************************************************/\n");
   printf("Initial velocities, CM-velocity substracted\n");
+}
+
+void cleanup()
+{
+  free(list);
+  free(head);
+  free(rx);
+  free(ry);
+  free(vx);
+  free(vy);
+  free(flowfieldx);
+  free(flowfieldy);
+  free(flowcellmass);
+  free(obsStartx);
+  free(obsStarty);
 }

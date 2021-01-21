@@ -2,10 +2,8 @@
 //Random number [0,1]
 #define RND1   ((double)((double)rand()/(double)RAND_MAX))
 
-//TODO: Define Virtual Particles
-
 //Virtual particles
-
+#define VIRTUAL_PARTICLES
 
 /******* LIBRARIES ***********************************************************/
 #include <stdio.h>
@@ -24,27 +22,25 @@ int main(){
 		&measurement_interval,&start_flow_measurement,
 		&dt,&rho,&alpha,
 		&temperature,&grav,&obsMass,
-		&gridshift,&spring_force);
+		&gridshift);
 
 //TEST FUNCTION print on screen system_parameters, comment/uncomment
   print_ini_para();
-  
-  int step;
+
   initialize();
   initialPositions();
   initialVelocities();
 
   printf("\nStarting simulation of %i mpc-steps.\n", mpcsteps);
 
-  for(step = 0; step < mpcsteps; step++){
+  for(int step = 0; step < mpcsteps; step++){
 
     if (step % 100 == 0) thermostate();      // call the thermostate every 100 steps
-    md();                                    // calculate movement of the obstacle parameters
-
+ 
 //  MPC- routines
-    stream();                                // streaming step of the fluid particles
-    cells(gridshift);				//sort particles into mpc-cells
-    collide();                               // collision step of the fluid and obstacle parameters
+    stream();				// streaming step of the fluid particles
+    cells(gridshift);			//sort particles into mpc-cells
+    collide();                         // collision step of the fluid and obstacle parameters
 
     if (step % 1000 == 0) printf("Step: %u\n", step);
     if ((step >= start_flow_measurement) && (step % measurement_interval == 0)){

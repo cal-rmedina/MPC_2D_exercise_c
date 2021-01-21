@@ -128,7 +128,7 @@ void initialVelocities(){
   printf("Initial velocities, CM-velocity substracted\n");
 }
 /*****************************************************************************/
-//Free CPU-memory (Pointers)s
+//Free CPU-memory (Pointers)
 void cleanup(){
   free(list);
   free(head);

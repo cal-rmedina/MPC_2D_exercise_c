@@ -114,7 +114,7 @@ how to couple the interaction of a solute (typically large object) to
 the fluid, \emph{e.g.}, a colloid or a polymer.  In the lecture we
 have seen the most standard methods, which is to consider the object
 as a heavy MPC particle, or to interact with Molecular dynamics or the
-surface boundary. In the last exercise we propose an interesting
+surface boundary. In the last part of exercise 1 we propose an interesting
 alternative method, which on a microscopic level, might be regarded as
 unphysical, although on a coarse-grained level, yields the desired
 behaviour.
@@ -126,21 +126,22 @@ Exercise is available on \mbox{\bf https://github.com/cal-rmedina/MPC\_2D\_exerc
 \noindent If you've modified the code and it doesn't work you can always download the pristine version.
  
 \vspace*{0.2cm}
-The simulation program can be compiled and run with \mbox{\texttt{Makefile}}
+The simulation program can be compiled and run with \mbox{\texttt{Makefile}}, 
 if you are not familiar with \mbox{\texttt{make}} commands you can also compile
-with \mbox{\texttt{gcc mpc\_2d.c -o mpc\_2d.exe}}. 
-Once you have the executable,it can be run as \mbox{\texttt{./mpc\_2d.exe}}.\\
+with \mbox{\texttt{gcc mpc\_2d.c -lm -o mpc\_2d.exe}}. 
+Once you have the executable,it can be run as \mbox{\texttt{./mpc\_2d.exe}}. 
 The parameters are read in from the file \mbox{\texttt{system\_parameters.h}}.
 You do not have to recompile after changing the parameters, but only after changing
 the source code. For modifying the input parameters and the source code,
 you can use whatever text editor you wish. 
+
   
 The simulation results are visualized with python using the plotting
 library \mbox{\texttt{matplotlib}}. You may find prepared plotting scripts in the
 folder \mbox{\texttt{output/}}. Once your simulation finishes, you can
-plot the results by typing \mbox{\texttt{plot\_flowprofile.py}} or
-\mbox{\texttt{plot\_flowfield.py}}. The graphs will then be saved to
-\mbox{\texttt{flowprofile.pdf}}, \mbox{\texttt{./flowfield.pdf}},
+plot the results by typing \mbox{\texttt{./plot\_flowprofile.py}} or
+\mbox{\texttt{./plot\_flowfield.py}}. The graphs will then be saved to
+\mbox{\texttt{flowprofile.pdf}}, \mbox{\texttt{flowfield.pdf}},
 respectively. If this file already exists then it will be overwritten,
 so you need to rename them if you would like to save them
 permanently. If you change the system properties (channel size, fluid
@@ -168,12 +169,7 @@ to modify the input parameters to understand the fluid behaviour.
   again. What happens?
 \end{enumerate}
 
-In the seconde part of this exercise, we model an immobile obstacle,
-\emph{e.g}, a fixed colloid, by consodering a number of heavy fixed
-fluid particles which take part in the collision step. These
-collisions as very high friction in the obstacle region. The internal
-degrees of freedom of the obstacle are updated using a molecular
-dynamics scheme. During the streaming step, the fluid particles may
+In the second part of this exercise, we model an immobile obstacle, \emph{e.g}, a fixed colloid, by considering a number of heavy fixed fluid particles with velocities randomly drawn from a Maxwell-Boltzmann distribution before each collision to ensure a vanishing mean velocity of the fixed colloid. The heavy fluid particles take part in the collision step, resulting in a very high friction in the obstacle region. During the streaming step, the fluid particles may
 still enter the obstacle.
 
 \begin{enumerate} \addtocounter{enumi}{4}

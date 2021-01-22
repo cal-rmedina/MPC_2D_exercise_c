@@ -13,13 +13,12 @@ int	flowstorecount;
 int	start_flow_measurement;
 int	measurement_interval;
 
-double	dt;
+double	h;
 double	rho;
 double	alpha;
 double	grav;
 double	dLx,dLy;
 double	obsMass;
-double	spring_force;
 double	temperature;
 double  gridshift;
 
@@ -33,4 +32,3 @@ double	*flowfieldx,*flowfieldy;
 double	*obsStartx,*obsStarty;
 
 unsigned int *flowcellmass;
-

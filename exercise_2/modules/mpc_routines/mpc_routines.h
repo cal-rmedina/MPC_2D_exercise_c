@@ -1,39 +1,39 @@
 /*****************************************************************************/
-
 // Streaming step: linearly propagate the fluid particles.
 
-void stream(){
+void stream(const int np_mpc,
+	    const double grav_h,const double h_mpc,
+	    double *rx_h,double *ry_h,double *vx_h,double *vy_h){
 
-  int i;
   double time_in_wall;
 
-  for(i=0;i<N;i++){
-
-//TODO: Modify the algorithm to include the gravity force
-
-// HINTS:
-//   -Review the verlet algorithms at assignment*.pdf
-
-    rx[i]+=vx[i]*dt;
-    ry[i]+=vy[i]*dt;
+//TODO: Implement gravity in x direction
 
 
-//TODO: Implement no-slip boundary condition
+//loop over MPC-particles (static obstacle)
+  for(int i=0;i<np_mpc;i++){
 
-// As it is now is satisfies slip boundary condition
 
-    if (ry[i] < 0){
-      time_in_wall = ry[i] / vy[i];
-      rx[i] -= 2.0 * vx[i] * time_in_wall;
-      ry[i] -= 2.0 * vy[i] * time_in_wall;
-      vy[i] *= -1.0;
+    rx_h[i]+=vx_h[i]*h_mpc;
+    ry_h[i]+=vy_h[i]*h_mpc;
+
+    rx_h[i] -= floor(rx_h[i]/dLx)*dLx;		// PBC x-direction
+
+//TODO: Implement no slip boundary condition
+//  Slip boundary condition is implemented
+//  MODIFY to get nsbc
+
+    if (ry_h[i] < 0){
+      time_in_wall = ry_h[i] / vy_h[i];
+      rx_h[i] -= 2.0 * vx_h[i] * time_in_wall;
+      ry_h[i] -= 2.0 * vy_h[i] * time_in_wall;
+      vy_h[i] *= -1.0;
     }
-
-    if (ry[i] > dLy){
-      time_in_wall = (ry[i]-dLy) / vy[i];
-      rx[i] -= 2.0 * vx[i] * time_in_wall;
-      ry[i] -= 2.0 * vy[i] * time_in_wall;
-      vy[i] *= -1.0;
+    if (ry_h[i] > dLy){
+      time_in_wall = (ry_h[i]-dLy) / vy_h[i];
+      rx_h[i] -= 2.0 * vx_h[i] * time_in_wall;
+      ry_h[i] -= 2.0 * vy_h[i] * time_in_wall;
+      vy_h[i] *= -1.0;
     }
   }
 }
@@ -43,7 +43,7 @@ void stream(){
 
 void cells(const double gridshift){
 
-  int i,icell,ix,iy;
+  int icell,ix,iy;
   double xtemp,ytemp,rndx,rndy;
 
 // gridshift: 1.0 if we want a random grid shift 0.0 IF NOT
@@ -61,7 +61,7 @@ void cells(const double gridshift){
 
   for(icell=0;icell<Ncell;icell++)  head[icell]=-1;  // clear the lists
 
-  for(i=0;i<N+Nobs;i++){
+  for(int i=0;i<N+Nobs;i++){
     xtemp=rx[i]+rndx;                 // grid shift
     xtemp-=floor(xtemp/dLx)*dLx;      // periodic boundary condition
     ix=(int) xtemp;
@@ -82,19 +82,12 @@ void collide(){
   ca=cos(alpha);
   sin_alpha=sin(alpha);
 
-//TODO: Change sign of the sinus (random rotation) 
+//TODO: Implement correct rotation
+// as it is now its value is constant for all MPC-cells
 /*****************************************************************************/
-  if(RND1<0.5)sa=sin_alpha;  //randomly choose rotation axis +/- z
+  if(RND1<0.5)sa=sin_alpha;
   else sa=-sin_alpha;
 /*****************************************************************************/
-
-// HINTS:
-//   -Check the structure of the code and the loops
-//   -Identify where it must be implemented
-//
-// As it is know its value its constant for all the cells 
-// for each collision step.
-
 
   for(icell=0;icell<Ncell;icell++){   // loop over all the mpc-cells
     vavx=0.0;
@@ -134,7 +127,6 @@ void collide(){
 
 //  2. If there is more than one particle in the cell, rotate relative velocities:
     if(cell_mass > 1.0){
-
       vavx/=cell_mass;
       vavy/=cell_mass;
       i=head[icell];            
@@ -150,5 +142,25 @@ void collide(){
         i=list[i];
       }
     }
+  }
+}
+/*****************************************************************************/
+//Set new obstacle's velocities
+
+// np_min_h = np_mpc, np_max_h = np_obst ----> update obs-particles velocities
+
+void ramdom_vel_obst(const int np_min_h,const int np_max_h,
+                     const double temperature_h,const double obs_mass_h,
+                     double *vx_h,double *vy_h){
+  double vxr;
+  double pi = acos(-1.0);
+  double vp_obs = sqrt(temperature_h/obs_mass_h);
+
+  for(int i=np_min_h; i<np_min_h+np_max_h; i++){
+    vxr = sqrt(-logl(RND1));
+    vx_h[i] = vp_obs*vxr*cos(2.0*pi*RND1);
+
+    vxr = sqrt(-logl(RND1));
+    vy_h[i] = vp_obs*vxr*cos(2.0*pi*RND1);
   }
 }

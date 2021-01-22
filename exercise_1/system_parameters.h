@@ -1,6 +1,5 @@
 0.1
 20000
-20
 5.0
 52
 52
@@ -8,46 +7,40 @@
 1.0
 0.0005
 10.0
-0
+5
 1
 10
 10000
 1.0
-1000.0
-
 /******************************************************************************
-
-NOTE:	Some values here are integer (e.g. "5") and some are
-  	floating point values (e.g. "0.05" or "10.0").
-	Please don't make ints to floats or vice versa.
-
-Take the next list as a reference in case you don't remember the original
-values or the program doesn't run with your new parameters set.
-
 REFERENCE:
 
-0.1		dt
+0.1		h
 20000		mpcsteps
-20		mdsteps
 5.0		rho
 52		Lx
 52		Ly
 1.570796326	alpha
 1.0		temperature
-0.005		grav
+0.0005		grav
 10.0		obsMass
 5		radius
 1		vis_cellsize
 100		measurement_interval
 10000		start_flow_measurement
 1.0		gridshift
-1000.0		spring_force
+
+NOTE:	Some values here are integer (e.g. "5") and some are
+  	floating point values (e.g. "0.05" or "10.0").
+	Please don't make ints to floats or vice versa.
+
+Take the list above as a reference in case you don't remember the original
+values or the program doesn't run with your new parameters set.
 
 DESCRIPTION OF VARIABLES:
 
- dt		mpc time-step
+ h		mpc time-step
  mpcsteps	mpc-steps
- mdsteps	md-steps per mpc-step
  rho		density (average number of fluid particles per unit cell)
  Lx		system size in unity cells
  Ly		system size in unity cells
@@ -65,6 +58,4 @@ DESCRIPTION OF VARIABLES:
  				(to give the system some time for "equilibration")
 
  gridshift			1.0 or 0.0 to activate/deactivate random shift in collision routine
-
- spring_force			constant in spring potential U = -k (r - r_o)
 ******************************************************************************/

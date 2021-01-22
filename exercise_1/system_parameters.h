@@ -5,9 +5,9 @@
 52
 1.570796326
 1.0
-0.0005
+0.00005
 10.0
-5
+0
 1
 10
 10000
@@ -22,9 +22,9 @@ REFERENCE:
 52		Ly
 1.570796326	alpha
 1.0		temperature
-0.0005		grav
+0.00005		grav
 10.0		obsMass
-5		radius
+0		radius
 1		vis_cellsize
 100		measurement_interval
 10000		start_flow_measurement

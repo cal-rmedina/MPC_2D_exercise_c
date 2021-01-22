@@ -62,26 +62,27 @@ void initialize(){
   printf("CPU memory allocation and placed object\n");
 }
 /*****************************************************************************/
-void initialPositions(){
+// Initial random positions of the fluid particles
+
+void initialPositions(const int np_mpc,const int np_obs,
+                      double *rx_h,double *ry_h){
   int i;
-  // Initial random positions of the fluid particles:
-  for(i=0;i<N;i++){
-      rx[i]=RND1*dLx;        //RND1 yields uniformly distributed
-      ry[i]=RND1*dLy;        //random numbers [0,1]
-    }
+  for(i=0; i<np_mpc; i++){
+    rx_h[i]=RND1*dLx;        //RND1 yields uniformly distributed
+    ry_h[i]=RND1*dLy;        //random numbers [0,1]
+  }
+
   // initial positions of the obstacle particles
-  for (i = N; i < N+Nobs; i++){
-    rx[i] = obsStartx[i-N];
-    ry[i] = obsStarty[i-N];
+  for(i=np_mpc; i<np_mpc+np_obs; i++){
+    rx_h[i] = obsStartx[i-np_mpc];
+    ry_h[i] = obsStarty[i-np_mpc];
   }
 
   printf("/**********************************************************************/\n");
   printf("Initial positions\n");
 }
 /*****************************************************************************/
-
 // initial velocities of the particles
-// background:
 // average kinetic energy of one particle in 2-dim = kT;   k = 1.0 in our units;
 // therefore: <1/2 m v²> = kT;   with m = 1.0 for the fluid particles
 
@@ -110,6 +111,7 @@ void initialVelocities(){
     }
   vxtemp/=(double) N;
   vytemp/=(double) N;
+
   for(i=0;i<N;i++){
     vx[i]-=vxtemp;     // Center-of-mass velocity of the
     vy[i]-=vytemp;     // whole system should vanish
@@ -128,7 +130,7 @@ void initialVelocities(){
   printf("Initial velocities, CM-velocity substracted\n");
 }
 /*****************************************************************************/
-//Free CPU-memory (Pointers)s
+//Free CPU-memory (Pointers)
 void cleanup(){
   free(list);
   free(head);

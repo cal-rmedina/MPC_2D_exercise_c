@@ -121,24 +121,26 @@ behaviour.
   
 \subsection*{Technical code comments }
 
-For a start, it might be a good idea to {\bf copy your files to a
-  working directory} so that a pristine copy to revert to always
-remains.
+Exercise is available on \mbox{\bf https://github.com/cal-rmedina/MPC\_2D\_exercise\_c} 
  
-The simulation program can be compiled as \mbox{\texttt{gcc
-    mpc\_2d.c -lm -o mpc\_2d.exe}}. Once you have the executable, it
-can be run as \mbox{\texttt{./mpc\_2d.exe}}. The parameters are read
-in from the file \mbox{\texttt{system\_parameters.h}}. You do not have
-to recompile after changing the parameters, but only after changing
-the source code. For modifying the input parameters and the source
-code, you can use whatever text editor you wish. 
+\noindent If you've modified the code and it doesn't work you can always download the pristine version.
+ 
+\vspace*{0.2cm}
+The simulation program can be compiled and run with \mbox{\texttt{Makefile}}
+if you are not familiar with \mbox{\texttt{make}} commands you can also compile
+with \mbox{\texttt{gcc mpc\_2d.c -o mpc\_2d.exe}}. 
+Once you have the executable,it can be run as \mbox{\texttt{./mpc\_2d.exe}}.\\
+The parameters are read in from the file \mbox{\texttt{system\_parameters.h}}.
+You do not have to recompile after changing the parameters, but only after changing
+the source code. For modifying the input parameters and the source code,
+you can use whatever text editor you wish. 
   
 The simulation results are visualized with python using the plotting
 library \mbox{\texttt{matplotlib}}. You may find prepared plotting scripts in the
 folder \mbox{\texttt{output/}}. Once your simulation finishes, you can
 plot the results by typing \mbox{\texttt{plot\_flowprofile.py}} or
 \mbox{\texttt{plot\_flowfield.py}}. The graphs will then be saved to
-\mbox{\texttt{flowprofile.pdf}}, \mbox{\texttt{flowfield.pdf}},
+\mbox{\texttt{flowprofile.pdf}}, \mbox{\texttt{./flowfield.pdf}},
 respectively. If this file already exists then it will be overwritten,
 so you need to rename them if you would like to save them
 permanently. If you change the system properties (channel size, fluid

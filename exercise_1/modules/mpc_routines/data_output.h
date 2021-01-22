@@ -40,8 +40,9 @@ void store_flowfield(){
 /*****************************************************************************/
 //print_flowfield() prints out the average momenta of the fluid to a file.
 //   It should be called once at the end of the simulation.
-
 void print_flowfield(){
+
+//FLOWFIELD
   FILE* flowfield = fopen("./output/flowfield.dat", "w");
   int x,y;
   for(y = 0; y < fLy; y++){
@@ -54,6 +55,7 @@ void print_flowfield(){
   }
   fclose(flowfield);
 
+//FLOW PROFILE
   double flow;
   unsigned int mass;
   FILE* flowprofile = fopen("./output/flowprofile.dat", "w");
@@ -70,6 +72,9 @@ void print_flowfield(){
   }
   fclose(flowprofile);  
 
+//DENSITY PROFILE
+//NOT USED DURING THE EXERCISE FURTHER ANALYSIS CAN BE DONE
+/*
   FILE* density = fopen("./output/density.dat", "w");
   const double flowstorecountd = (double)flowstorecount;
   for (y = 0; y < fLy; y++) {
@@ -79,12 +84,16 @@ void print_flowfield(){
     fprintf(density, "\n");
   }
   fclose(density);
+*/
 }
 /*****************************************************************************/
 //TEST FUNCTION: print Kinetic Energy to a file "./output/kin_ene.dat"
 
 // np_min_h = 0,      np_max_h = np_mpc  ----> print KE of MPC particles
 // np_min_h = np_mpc, np_max_h = np_obst ----> print KE of obs particles
+
+//call function inside main() if you want to check KE, python file to plot (./output)
+//NOT USED DURING THE EXERCISE
 
 void print_kin_energy(const int mpc_step_h,const int np_min_h,const int np_max_h,
 		      const double dt_h,const double mass_h,

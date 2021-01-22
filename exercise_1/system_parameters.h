@@ -1,6 +1,5 @@
 0.1
-40000
-20
+20000
 5.0
 52
 52
@@ -13,19 +12,17 @@
 10
 10000
 1.0
-1000.0
 /******************************************************************************
 REFERENCE:
 
 0.1		h
 20000		mpcsteps
-20		mdsteps
 5.0		rho
 52		Lx
 52		Ly
 1.570796326	alpha
 1.0		temperature
-0.005		grav
+0.0005		grav
 10.0		obsMass
 5		radius
 1		vis_cellsize
@@ -44,7 +41,6 @@ DESCRIPTION OF VARIABLES:
 
  h		mpc time-step
  mpcsteps	mpc-steps
- mdsteps	md-steps per mpc-step
  rho		density (average number of fluid particles per unit cell)
  Lx		system size in unity cells
  Ly		system size in unity cells
@@ -62,5 +58,4 @@ DESCRIPTION OF VARIABLES:
  				(to give the system some time for "equilibration")
 
  gridshift			1.0 or 0.0 to activate/deactivate random shift in collision routine
-
 ******************************************************************************/

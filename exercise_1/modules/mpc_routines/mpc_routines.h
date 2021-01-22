@@ -17,7 +17,7 @@ void stream(const int np_mpc,
 
     rx_h[i] -= floor(rx_h[i]/dLx)*dLx;		// PBC x-direction
 
-//  Wall (Slip bpundary condition)
+//  Wall (No slip boundary condition)
 
     if (ry_h[i] < 0){
       time_in_wall = ry_h[i] / vy_h[i];
@@ -145,7 +145,6 @@ void collide(){
 void ramdom_vel_obst(const int np_min_h,const int np_max_h,
                      const double temperature_h,const double obs_mass_h,
                      double *vx_h,double *vy_h){
-
   double vxr;
   double pi = acos(-1.0);
   double vp_obs = sqrt(temperature_h/obs_mass_h);
@@ -157,35 +156,4 @@ void ramdom_vel_obst(const int np_min_h,const int np_max_h,
     vxr = sqrt(-logl(RND1));
     vy_h[i] = vp_obs*vxr*cos(2.0*pi*RND1);
   }
-}
-/*****************************************************************************/
-// Thermostate:
-//   Because of the driving force (gravity), we put more and more energy 
-//   into the system over time. 
-//   Thus, the fluid heats up. To counter this, we strongly couple a heat reservoir to the fluid,
-//   using a simple global thermostate. It scales down all fluid particles velocities to reach the
-//   desired temperature.
-
-void thermostate(){
-
-  double av_vel2 = 0.0;
-  int i;
-
-  for (i = 0; i < N; i++)  av_vel2 += vx[i]*vx[i]+vy[i]*vy[i];
-
-  // printf("temperature correction factor: %f\n", av_vel2);
-
-//average velocity we want: v² = kT/m
-  av_vel2 /= (double)N;
-
-  // printf("temperature correction factor: %f\n", av_vel2);
-
-//av_vel2/2.0 is the current temperature
-  const double scale_factor = sqrt(temperature/(av_vel2/2.0));
-  for (i = 0; i < N; i++) {
-    vx[i] *= scale_factor;
-    vy[i] *= scale_factor;
-  }
-// print out corrected temperature deviation:
- // printf("temperature correction factor: %f\n", scale_factor);
 }

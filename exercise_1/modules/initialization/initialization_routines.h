@@ -108,14 +108,14 @@ void initialVelocities(){
 
     vxtemp+=vx[i];
     vytemp+=vy[i];
-    }
+  }
   vxtemp/=(double) N;
   vytemp/=(double) N;
 
   for(i=0;i<N;i++){
     vx[i]-=vxtemp;     // Center-of-mass velocity of the
     vy[i]-=vytemp;     // whole system should vanish
-    }
+  }
 
 //  Initial velocities of the obstacle-particles: 
   for (i = N; i < N+Nobs; i++){

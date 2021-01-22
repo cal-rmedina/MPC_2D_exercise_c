@@ -1,39 +1,39 @@
 /*****************************************************************************/
 // Streaming step: linearly propagate the fluid particles.
 
-void stream(){
+void stream(const int np_mpc,
+	    const double grav_h,const double h_mpc,
+	    double *rx_h,double *ry_h,double *vx_h,double *vy_h){
 
   double time_in_wall;
 
-// loop over MPC-particles (static obstacle)
-  for(int i=0;i<N;i++){
-
-//TODO: Modify the algorithm to include the gravity force
-// HINTS:
-//   -Review the verlet algorithms at assignment*.pdf
-
-    rx[i]+=vx[i]*dt;
-    ry[i]+=vy[i]*dt;
-
-    rx[i] -= floor(rx[i]/dLx)*dLx;		// PBC x-direction
-
-//Wall (Slip boundary condition)
+//TODO: Implement gravity in x direction
 
 
-//TODO: Implement no-slip boundary condition
-// As it is now is satisfies slip boundary condition
+//loop over MPC-particles (static obstacle)
+  for(int i=0;i<np_mpc;i++){
 
-    if (ry[i] < 0){
-      time_in_wall = ry[i] / vy[i];
-      rx[i] -= 2.0 * vx[i] * time_in_wall;
-      ry[i] -= 2.0 * vy[i] * time_in_wall;
-      vy[i] *= -1.0;
+
+    rx_h[i]+=vx_h[i]*h_mpc;
+    ry_h[i]+=vy_h[i]*h_mpc;
+
+    rx_h[i] -= floor(rx_h[i]/dLx)*dLx;		// PBC x-direction
+
+//TODO: Implement no slip boundary condition
+//  Slip boundary condition is implemented
+//  MODIFY to get nsbc
+
+    if (ry_h[i] < 0){
+      time_in_wall = ry_h[i] / vy_h[i];
+      rx_h[i] -= 2.0 * vx_h[i] * time_in_wall;
+      ry_h[i] -= 2.0 * vy_h[i] * time_in_wall;
+      vy_h[i] *= -1.0;
     }
-    if (ry[i] > dLy){
-      time_in_wall = (ry[i]-dLy) / vy[i];
-      rx[i] -= 2.0 * vx[i] * time_in_wall;
-      ry[i] -= 2.0 * vy[i] * time_in_wall;
-      vy[i] *= -1.0;
+    if (ry_h[i] > dLy){
+      time_in_wall = (ry_h[i]-dLy) / vy_h[i];
+      rx_h[i] -= 2.0 * vx_h[i] * time_in_wall;
+      ry_h[i] -= 2.0 * vy_h[i] * time_in_wall;
+      vy_h[i] *= -1.0;
     }
   }
 }
@@ -82,18 +82,12 @@ void collide(){
   ca=cos(alpha);
   sin_alpha=sin(alpha);
 
-//TODO: Change sign of the sinus (random rotation) 
+//TODO: Implement correct rotation
+// as it is now its value is constant for all MPC-cells
 /*****************************************************************************/
-  if(RND1<0.5)sa=sin_alpha;  //randomly choose rotation axis +/- z
+  if(RND1<0.5)sa=sin_alpha;
   else sa=-sin_alpha;
 /*****************************************************************************/
-
-// HINTS:
-//   -Check the structure of the code and the loops
-//   -Identify where it must be implemented
-//
-// As it is know its value its constant for all the cells 
-// for each collision step.
 
   for(icell=0;icell<Ncell;icell++){   // loop over all the mpc-cells
     vavx=0.0;
@@ -151,33 +145,22 @@ void collide(){
   }
 }
 /*****************************************************************************/
-// Thermostate:
-//   Because of the driving force (gravity), we put more and more energy 
-//   into the system over time. 
-//   Thus, the fluid heats up. To counter this, we strongly couple a heat reservoir to the fluid,
-//   using a simple global thermostate. It scales down all fluid particles velocities to reach the
-//   desired temperature.
+//Set new obstacle's velocities
 
-void thermostate(){
+// np_min_h = np_mpc, np_max_h = np_obst ----> update obs-particles velocities
 
-  double av_vel2 = 0.0;
-  int i;
+void ramdom_vel_obst(const int np_min_h,const int np_max_h,
+                     const double temperature_h,const double obs_mass_h,
+                     double *vx_h,double *vy_h){
+  double vxr;
+  double pi = acos(-1.0);
+  double vp_obs = sqrt(temperature_h/obs_mass_h);
 
-  for (i = 0; i < N; i++)  av_vel2 += vx[i]*vx[i]+vy[i]*vy[i];
+  for(int i=np_min_h; i<np_min_h+np_max_h; i++){
+    vxr = sqrt(-logl(RND1));
+    vx_h[i] = vp_obs*vxr*cos(2.0*pi*RND1);
 
-  // printf("temperature correction factor: %f\n", av_vel2);
-
-//average velocity we want: v² = kT/m
-  av_vel2 /= (double)N;
-
-  // printf("temperature correction factor: %f\n", av_vel2);
-
-//av_vel2/2.0 is the current temperature
-  const double scale_factor = sqrt(temperature/(av_vel2/2.0));
-  for (i = 0; i < N; i++) {
-    vx[i] *= scale_factor;
-    vy[i] *= scale_factor;
+    vxr = sqrt(-logl(RND1));
+    vy_h[i] = vp_obs*vxr*cos(2.0*pi*RND1);
   }
-// print out corrected temperature deviation:
- // printf("temperature correction factor: %f\n", scale_factor);
 }
